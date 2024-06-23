@@ -1,1 +1,1 @@
-<h1>Conversor de monedas</h1>
+<h1 style="align: center">Conversor de monedas</h1>
