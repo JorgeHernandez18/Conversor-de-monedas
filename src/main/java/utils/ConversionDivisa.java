@@ -10,10 +10,10 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class ConversionDivisa {
-    public Moneda Conversion(String base_code, String target_code, int amount){
+    public Moneda Conversion(String base_code, String target_code, double amount) {
 
         URI conversion = URI.create("https://v6.exchangerate-api.com/v6/3530afe36d7dfb3fbef9af13/pair/" + base_code + "/"
-                + target_code + "/" + amount);
+                + target_code + "/");
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
@@ -28,6 +28,11 @@ public class ConversionDivisa {
             throw new RuntimeException(e);
         }
 
-        return new Gson().fromJson(response.body(), Moneda.class);
+        return ConvertirMoneda(new Gson().fromJson(response.body(), Moneda.class), amount);
+    }
+
+    public Moneda ConvertirMoneda(Moneda moneda, double amount) {
+        double conversion = Double.valueOf(moneda.conversion_rate()) * amount;
+        return new Moneda(String.valueOf(conversion));
     }
 }
